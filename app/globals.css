@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --forest: #0F3D2E;
+    --gold: #E8B923;
+    --cream: #FFF8E7;
+    --charcoal: #1E1E1E;
+
+    /* Light mode: Cream background, Forest/Charcoal text */
+    --background: 44 100% 95%; /* #FFF8E7 in HSL approx */
+    --foreground: 0 0% 12%; /* #1E1E1E */
+
+    --card: 44 80% 97%;
+    --card-foreground: 0 0% 12%;
+
+    --popover: 44 80% 97%;
+    --popover-foreground: 0 0% 12%;
+
+    --primary: 159 61% 15%; /* #0F3D2E */
+    --primary-foreground: 44 100% 95%; /* #FFF8E7 */
+
+    --secondary: 44 50% 90%;
+    --secondary-foreground: 159 61% 15%;
+
+    --muted: 44 30% 90%;
+    --muted-foreground: 159 20% 30%;
+
+    --accent: 46 80% 52%; /* #E8B923 */
+    --accent-foreground: 159 61% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 44 100% 95%;
+
+    --border: 44 30% 85%;
+    --input: 44 30% 85%;
+    --ring: 159 61% 15%; /* Light focus ring = Forest (11.48:1 contrast on cream) */
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Dark mode swaps cream <-> charcoal; forest + gold preserved */
+    --background: 0 0% 12%; /* #1E1E1E */
+    --foreground: 44 100% 95%; /* #FFF8E7 */
+
+    --card: 0 0% 15%;
+    --card-foreground: 44 100% 95%;
+
+    --popover: 0 0% 15%;
+    --popover-foreground: 44 100% 95%;
+
+    --primary: 46 80% 52%; /* #E8B923 */
+    --primary-foreground: 0 0% 12%; /* #1E1E1E */
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 44 100% 95%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 44 30% 75%;
+
+    --accent: 159 61% 25%;
+    --accent-foreground: 44 100% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 44 100% 95%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 46 80% 52%; /* Dark focus ring = Gold (9.05:1 contrast on charcoal) */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-gold/30 selection:text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  main {
+    overflow-x: clip;
+  }
+}
+
+/* Accessible focus styling */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Subtle grain texture overlay */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Gold hairline borders */
+.border-gold-hairline {
+  border-color: rgba(232, 185, 35, 0.35);
+}
+
+/* Smooth transition for theme switching */
+html.transition-theme * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
