@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { CartProvider } from "@/lib/cart-context";
 import { CartDrawer } from "@/components/cart/cart-drawer";
 import { Toaster } from "@/components/ui/sonner";
+import { generateProductJsonLd } from "@/lib/jsonld";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -71,8 +72,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = generateProductJsonLd();
+
   return (
     <html lang="en" suppressHydrationWarning className={`${playfair.variable} ${inter.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-screen bg-background text-foreground font-sans bg-grain">
         <ThemeProvider
           attribute="class"
