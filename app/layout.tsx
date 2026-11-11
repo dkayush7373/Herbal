@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { CartProvider } from "@/lib/cart-context";
+import { CartDrawer } from "@/components/cart/cart-drawer";
+import { Toaster } from "@/components/ui/sonner";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -77,11 +80,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            <main id="main" className="flex-1 overflow-x-clip">
-              {children}
-            </main>
-          </div>
+          <CartProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <main id="main" className="flex-1 overflow-x-clip">
+                {children}
+              </main>
+            </div>
+            <CartDrawer />
+            <Toaster position="bottom-right" />
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>
