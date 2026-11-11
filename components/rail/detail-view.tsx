@@ -1,7 +1,13 @@
 "use client";
 
-import React from "react";
-import { Product, getPrice, formatINR } from "@/lib/products";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  animate,
+  useReducedMotion,
+} from "framer-motion";
+import { Product, Size, getPrice, formatINR } from "@/lib/products";
 import {
   Dialog,
   DialogContent,
@@ -10,9 +16,18 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { BottleImage } from "@/components/bottle-image";
 import { useCart } from "@/lib/cart-context";
+import { getOrCreateVisitorReferralCode } from "@/lib/referral";
 import { toast } from "sonner";
+import { RotateCw, Share2, Check, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ProductDetailViewProps {
   product: Product | null;
@@ -26,58 +41,331 @@ export function ProductDetailView({
   onClose,
 }: ProductDetailViewProps) {
   const { addItem, setIsDrawerOpen } = useCart();
+  const shouldReduceMotion = useReducedMotion();
+
+  const [selectedSize, setSelectedSize] = useState<Size>("100 ml");
+  const [copied, setCopied] = useState(false);
+  const [activeFace, setActiveFace] = useState<"front" | "back">("front");
+
+  // Single MotionValue for 3D rotation
+  const rotationY = useMotionValue(0);
+
+  // Derive active face directly from rotationY without separate desynced state
+  useEffect(() => {
+    const unsubscribe = rotationY.on("change", (latest) => {
+      const normalized = Math.round(latest / 180) % 2;
+      setActiveFace(Math.abs(normalized) === 1 ? "back" : "front");
+    });
+    return () => unsubscribe();
+  }, [rotationY]);
+
+  // Reset rotation and size on dialog open
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedSize("100 ml");
+      rotationY.set(0);
+      setActiveFace("front");
+    }
+  }, [isOpen, rotationY]);
 
   if (!product) return null;
-  const price = getPrice(product.id, "100 ml");
+
+  const currentPrice = getPrice(product.id, selectedSize);
+
+  // Front/Back toggle animation (nearest multiple, mod-360 normalized, never spins 360 backwards)
+  const handleToggleFlip = () => {
+    const nextFace = activeFace === "front" ? "back" : "front";
+    setActiveFace(nextFace);
+
+    if (shouldReduceMotion) {
+      rotationY.set(nextFace === "front" ? 0 : 180);
+      return;
+    }
+
+    const currentDeg = rotationY.get();
+    const currentNearestHalf = Math.round(currentDeg / 180);
+    const targetDeg = (currentNearestHalf + 1) * 180;
+
+    animate(rotationY, targetDeg, {
+      type: "spring",
+      stiffness: 120,
+      damping: 18,
+    });
+  };
+
+  const handleDragEnd = (_: any, info: { velocity: { x: number } }) => {
+    if (shouldReduceMotion) return;
+    const currentDeg = rotationY.get();
+    // Add inertia based on drag release velocity
+    const targetWithInertia = currentDeg + info.velocity.x * 0.2;
+    const settledTarget = Math.round(targetWithInertia / 180) * 180;
+
+    animate(rotationY, settledTarget, {
+      type: "spring",
+      stiffness: 120,
+      damping: 18,
+    });
+  };
 
   const handleAddToCart = () => {
-    addItem(product.id, "100 ml", 1);
+    addItem(product.id, selectedSize, 1);
     onClose();
     setIsDrawerOpen(true);
     toast.success(`Added ${product.name} to your bag`);
   };
 
+  const handleShare = async () => {
+    const refCode = getOrCreateVisitorReferralCode();
+    const siteUrl = typeof window !== "undefined" ? window.location.origin : "";
+    const shareUrl = `${siteUrl}?ref=${refCode}#rail`;
+    const shareData = {
+      title: `AKATSUKI — ${product.name}`,
+      text: `Discover ${product.name} Ayurvedic Hair Oil from AKATSUKI: ${product.tagline}. Handcrafted with natural herbs!`,
+      url: shareUrl,
+    };
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (err: any) {
+        if (err.name !== "AbortError") {
+          // Fall back to clipboard if share threw unexpected error
+        } else {
+          return;
+        }
+      }
+    }
+
+    // Fallback: Clipboard copy
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast.success("Link copied to clipboard with your referral tag!");
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      toast.error("Unable to copy link to clipboard.");
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md sm:rounded-3xl p-6 bg-background border border-border">
-        <DialogHeader className="text-center sm:text-left">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gold">
-            100% Ayurvedic
-          </span>
-          <DialogTitle className="font-serif text-2xl text-foreground">
+      <DialogContent
+        className="max-w-lg sm:rounded-3xl p-6 bg-background border border-border shadow-2xl overflow-hidden"
+        aria-labelledby="product-detail-title"
+      >
+        <DialogHeader className="text-left border-b border-border/40 pb-3">
+          <div className="flex items-center justify-between">
+            <span className="inline-block rounded-full bg-forest/10 px-3 py-0.5 text-[11px] font-semibold tracking-wider text-forest uppercase dark:bg-gold/15 dark:text-gold">
+              100% Ayurvedic
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleToggleFlip}
+              className="text-xs gap-1.5 text-muted-foreground hover:text-foreground h-7 px-2.5 rounded-full"
+            >
+              <RotateCw className="w-3.5 h-3.5" />
+              <span>{activeFace === "front" ? "View Details" : "View Bottle"}</span>
+            </Button>
+          </div>
+          <DialogTitle
+            id="product-detail-title"
+            className="font-serif text-2xl sm:text-3xl font-bold text-foreground mt-1"
+          >
             {product.name}
           </DialogTitle>
-          <DialogDescription className="text-sm">
+          <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
             {product.tagline}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col items-center py-4">
-          <div className="w-32 h-64 mb-4">
-            <BottleImage product={product} priority sizes="128px" />
-          </div>
-          <p className="text-sm text-center text-muted-foreground leading-relaxed px-4">
-            {product.description}
-          </p>
-          <p className="font-serif text-xl font-bold text-forest dark:text-gold mt-4">
-            {price ? formatINR(price) : "Coming soon"}
-          </p>
+        {/* 3D Flip Card Container with Perspective */}
+        <div
+          className="relative w-full h-[320px] my-2 flex items-center justify-center"
+          style={{ perspective: 1200 }}
+        >
+          <motion.div
+            style={{
+              rotateY: rotationY,
+              transformStyle: "preserve-3d",
+            }}
+            drag={shouldReduceMotion ? false : "x"}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.15}
+            onDragEnd={handleDragEnd}
+            className="relative w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+          >
+            {/* FRONT FACE: Jiggling Bottle View */}
+            <div
+              className={cn(
+                "absolute inset-0 flex flex-col items-center justify-center select-none transition-opacity duration-200",
+                activeFace === "back" ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+              )}
+              style={{
+                visibility: activeFace === "back" ? "hidden" : "visible",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
+            >
+              <motion.div
+                initial={shouldReduceMotion ? { scale: 1 } : { scale: 0.85, rotate: -4 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : { type: "spring", stiffness: 220, damping: 15 }
+                }
+                className="w-36 h-[270px] flex items-center justify-center"
+              >
+                <BottleImage
+                  product={product}
+                  priority
+                  sizes="160px"
+                  className="w-full h-full"
+                />
+              </motion.div>
+              <p className="text-[11px] text-muted-foreground/75 mt-1 flex items-center gap-1">
+                <span>Drag horizontally to rotate 3D bottle</span>
+                <Sparkles className="w-3 h-3 text-gold" />
+              </p>
+            </div>
+
+            {/* BACK FACE: Ingredients, Ritual, and Safety Information */}
+            <div
+              className={cn(
+                "absolute inset-0 rounded-2xl bg-cream dark:bg-charcoal p-5 border border-gold/40 shadow-lg flex flex-col justify-between overflow-y-auto select-none transition-opacity duration-200",
+                activeFace === "front" ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"
+              )}
+              style={{
+                transform: "rotateY(180deg)",
+                visibility: activeFace === "front" ? "hidden" : "visible",
+                backfaceVisibility: "hidden",
+                WebkitBackfaceVisibility: "hidden",
+              }}
+            >
+              <div>
+                <h4 className="font-serif font-bold text-sm text-forest dark:text-gold uppercase tracking-wider mb-2">
+                  Key Botanical Infusion
+                </h4>
+                <ul className="space-y-1.5 text-xs text-foreground/90">
+                  {product.ingredients.map((ing, i) => (
+                    <li key={i} className="flex items-start gap-1.5 leading-tight">
+                      <span className="text-gold font-bold">•</span>
+                      <span>{ing}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-3">
+                <h4 className="font-serif font-bold text-sm text-forest dark:text-gold uppercase tracking-wider mb-1.5">
+                  Ayurvedic Ritual (How to Use)
+                </h4>
+                <ol className="space-y-1 text-xs text-foreground/80 list-decimal list-inside">
+                  {product.howTo.map((step, i) => (
+                    <li key={i} className="leading-tight">
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="border-t border-gold/30 pt-2.5 mt-2 flex items-center justify-between text-[11px] font-semibold text-forest dark:text-cream">
+                <span>Paraben free · Natural · For all</span>
+                <span className="text-gold font-bold">100% Ayurvedic</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="flex gap-3 mt-2">
+        {/* Size Selection Chips (Tooltip on unpriced 200 ml) */}
+        <div className="space-y-2 pt-2 border-t border-border/40">
+          <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
+            <span>Select Bottle Size:</span>
+            <span className="font-serif text-lg font-bold text-forest dark:text-gold">
+              {currentPrice !== null ? formatINR(currentPrice) : "Price on release"}
+            </span>
+          </div>
+
+          <TooltipProvider delayDuration={150}>
+            <div className="flex gap-3">
+              {product.sizes.map((size) => {
+                const isPriced = getPrice(product.id, size) !== null;
+                const isSelected = selectedSize === size;
+
+                if (!isPriced) {
+                  return (
+                    <Tooltip key={size}>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          disabled
+                          data-testid="size-chip-200-ml"
+                          aria-label={`${size} (Coming soon)`}
+                          className="flex-1 py-2 px-3 rounded-full text-xs font-medium border border-dashed border-muted-foreground/40 text-muted-foreground/50 cursor-not-allowed bg-muted/20"
+                        >
+                          {size} (Coming soon)
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top">
+                        <p className="font-sans font-medium text-xs">
+                          200 ml family bottle coming soon!
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                }
+
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    data-testid="size-chip-100-ml"
+                    onClick={() => setSelectedSize(size)}
+                    className={cn(
+                      "flex-1 py-2 px-3 rounded-full text-xs font-semibold transition-all border",
+                      isSelected
+                        ? "bg-forest text-cream dark:bg-gold dark:text-charcoal border-transparent shadow-sm"
+                        : "bg-background text-foreground border-border hover:bg-muted/50"
+                    )}
+                  >
+                    {size} — {formatINR(getPrice(product.id, size)!)}
+                  </button>
+                );
+              })}
+            </div>
+          </TooltipProvider>
+        </div>
+
+        {/* Action Buttons: Add to Bag & Share */}
+        <div className="flex items-center gap-3 pt-3">
           <Button
             variant="gold"
-            className="flex-1 rounded-full font-semibold"
+            size="lg"
             onClick={handleAddToCart}
+            className="flex-1 rounded-full font-bold shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             Add to Bag
           </Button>
+
           <Button
             variant="outline"
-            className="rounded-full"
-            onClick={onClose}
+            size="lg"
+            onClick={handleShare}
+            className="rounded-full px-4 gap-2 text-xs font-medium border-border"
           >
-            Close
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-forest dark:text-gold" />
+                <span>Copied</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="w-4 h-4" />
+                <span>Share</span>
+              </>
+            )}
           </Button>
         </div>
       </DialogContent>
