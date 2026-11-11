@@ -115,12 +115,14 @@ export function Footer() {
                   <InstagramIcon className="w-4 h-4" />
                 </a>
               ) : (
-                <span
+                <button
+                  type="button"
+                  disabled
                   aria-label="Instagram (link not configured)"
                   className="p-2 rounded-full bg-white/5 text-cream/30 cursor-not-allowed"
                 >
                   <InstagramIcon className="w-4 h-4" />
-                </span>
+                </button>
               )}
 
               {/* Facebook */}
@@ -135,12 +137,14 @@ export function Footer() {
                   <FacebookIcon className="w-4 h-4" />
                 </a>
               ) : (
-                <span
+                <button
+                  type="button"
+                  disabled
                   aria-label="Facebook (link not configured)"
                   className="p-2 rounded-full bg-white/5 text-cream/30 cursor-not-allowed"
                 >
                   <FacebookIcon className="w-4 h-4" />
-                </span>
+                </button>
               )}
 
               {/* X */}
@@ -155,12 +159,14 @@ export function Footer() {
                   <XIcon className="w-4 h-4" />
                 </a>
               ) : (
-                <span
+                <button
+                  type="button"
+                  disabled
                   aria-label="X (link not configured)"
                   className="p-2 rounded-full bg-white/5 text-cream/30 cursor-not-allowed"
                 >
                   <XIcon className="w-4 h-4" />
-                </span>
+                </button>
               )}
 
               {/* YouTube */}
@@ -175,12 +181,14 @@ export function Footer() {
                   <YouTubeIcon className="w-4 h-4" />
                 </a>
               ) : (
-                <span
+                <button
+                  type="button"
+                  disabled
                   aria-label="YouTube (link not configured)"
                   className="p-2 rounded-full bg-white/5 text-cream/30 cursor-not-allowed"
                 >
                   <YouTubeIcon className="w-4 h-4" />
-                </span>
+                </button>
               )}
             </div>
           </div>

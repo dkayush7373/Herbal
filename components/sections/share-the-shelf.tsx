@@ -83,7 +83,7 @@ export function ShareTheShelf() {
 
             {/* Reward text shown ONLY if CONFIG.referral.reward is set */}
             {rewardText && (
-              <p className="text-xs font-semibold text-gold bg-gold/10 px-4 py-2 rounded-xl inline-block">
+              <p className="text-xs font-semibold text-forest dark:text-gold bg-forest/10 dark:bg-gold/15 px-4 py-2 rounded-xl inline-block">
                 {rewardText}
               </p>
             )}

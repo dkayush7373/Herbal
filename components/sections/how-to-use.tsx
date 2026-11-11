@@ -33,7 +33,7 @@ export function HowToUseSection() {
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <span className="text-xs font-semibold tracking-wider uppercase text-gold">
+          <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Sacred Ritual
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest dark:text-cream">
@@ -83,7 +83,7 @@ export function HowToUseSection() {
                 <h3 className="font-serif text-xl font-bold text-foreground">
                   {item.title}
                 </h3>
-                <p className="text-xs font-semibold uppercase tracking-wider text-gold">
+                <p className="text-xs font-semibold uppercase tracking-wider text-forest dark:text-gold">
                   {item.subtitle}
                 </p>
               </div>

@@ -76,6 +76,7 @@ export function BottleImage({
   // Branch 2: Inline SVG bottle-silhouette mask (viewBox "0 0 450 1000", cap->neck->shoulders->body)
   return (
     <div
+      data-testid={`bottle-${product.id}`}
       className={cn(
         "relative w-full aspect-[450/1000] flex items-center justify-center select-none",
         className

@@ -52,10 +52,13 @@ export function CartDrawer() {
 
   return (
     <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-      <DrawerContent className="max-w-md mx-auto max-h-[85vh] flex flex-col bg-background border-border">
+      <DrawerContent
+        aria-labelledby="cart-drawer-title"
+        className="max-w-md mx-auto max-h-[85vh] flex flex-col bg-background border-border"
+      >
         <DrawerHeader className="border-b border-border/50 pb-3">
-          <DrawerTitle className="font-serif text-xl flex items-center gap-2 text-forest dark:text-cream">
-            <ShoppingBag className="w-5 h-5 text-gold" />
+          <DrawerTitle id="cart-drawer-title" className="font-serif text-xl flex items-center gap-2 text-forest dark:text-cream">
+            <ShoppingBag aria-hidden="true" className="w-5 h-5 text-gold" />
             Your Herbal Bag
           </DrawerTitle>
           <DrawerDescription className="text-xs">

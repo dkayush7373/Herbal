@@ -13,6 +13,7 @@ interface RailBottleProps {
   isActive: boolean;
   bottleRef: React.RefObject<HTMLDivElement | null>;
   tagRef: React.RefObject<HTMLDivElement | null>;
+  role?: "button" | "option";
   onSelect: (product: Product) => void;
   onTap: (index: number) => void;
   onKeyDown: (e: React.KeyboardEvent, index: number) => void;
@@ -24,6 +25,7 @@ export function RailBottle({
   isActive,
   bottleRef,
   tagRef,
+  role = "option",
   onSelect,
   onTap,
   onKeyDown,
@@ -99,9 +101,9 @@ export function RailBottle({
   return (
     <div
       ref={containerRef}
-      role="option"
-      aria-selected={isActive}
-      tabIndex={isActive ? 0 : -1}
+      role={role}
+      {...(role === "option" ? { "aria-selected": isActive } : {})}
+      tabIndex={role === "button" ? 0 : (isActive ? 0 : -1)}
       id={`rail-bottle-${product.id}`}
       data-testid={`rail-bottle-${product.id}`}
       onKeyDown={(e) => onKeyDown(e, index)}

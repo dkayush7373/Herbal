@@ -1,5 +1,21 @@
 import { test, expect } from "@playwright/test";
 
+async function addBottleToBag(page: any, id: string) {
+  // If drawer is open, close it with Escape
+  const drawerTitle = page.locator("text=Your Herbal Bag");
+  if (await drawerTitle.isVisible()) {
+    await page.keyboard.press("Escape");
+    await expect(drawerTitle).toBeHidden();
+  }
+  const bottle = page.locator(`[data-testid="rail-bottle-${id}"]`).first();
+  await bottle.click();
+  const detailDialog = page.locator('[aria-labelledby="product-detail-title"]');
+  await expect(detailDialog).toBeVisible();
+  const addBtn = detailDialog.locator('[data-testid="detail-add-to-bag"]');
+  await addBtn.click();
+  await expect(detailDialog).toHaveCount(0);
+}
+
 test.describe("Stage 3: Cart, Drawer, Persistence & WhatsApp Checkout Spec", () => {
   test.beforeEach(async ({ page }) => {
     // Clear storage before test
@@ -18,22 +34,23 @@ test.describe("Stage 3: Cart, Drawer, Persistence & WhatsApp Checkout Spec", () 
     await expect(badge).toHaveCount(0);
 
     // 1. Add Classic White (349)
-    const addWhiteBtn = page.locator('[data-testid="add-to-cart-oil-white"]');
-    await addWhiteBtn.click();
+    await addBottleToBag(page, "oil-white");
     await expect(badge).toHaveText("1");
 
     // 2. Duplicate add merges into quantity 2
-    await addWhiteBtn.click();
+    await addBottleToBag(page, "oil-white");
     await expect(badge).toHaveText("2");
 
     // 3. Add Midnight Black (399)
-    const addBlackBtn = page.locator('[data-testid="add-to-cart-oil-black"]');
-    await addBlackBtn.click();
+    await addBottleToBag(page, "oil-black");
     await expect(badge).toHaveText("3");
 
-    // 4. Open Drawer
-    await page.locator('button[aria-label^="Cart"]').click();
-    await expect(page.locator("text=Your Herbal Bag")).toBeVisible();
+    // 4. Open Drawer if not already open
+    const drawerTitle = page.locator("text=Your Herbal Bag");
+    if (!(await drawerTitle.isVisible())) {
+      await page.locator('button[aria-label^="Cart"]').click();
+      await expect(drawerTitle).toBeVisible();
+    }
 
     // Verify lines exist
     const whiteLine = page.locator('[data-testid="cart-line-oil-white"]');

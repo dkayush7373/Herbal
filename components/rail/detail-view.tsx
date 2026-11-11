@@ -225,9 +225,9 @@ export function ProductDetailView({
                   className="w-full h-full"
                 />
               </motion.div>
-              <p className="text-[11px] text-muted-foreground/75 mt-1 flex items-center gap-1">
+              <p className="text-[11px] text-forest dark:text-cream font-medium mt-1 flex items-center gap-1">
                 <span>Drag horizontally to rotate 3D bottle</span>
-                <Sparkles className="w-3 h-3 text-gold" />
+                <Sparkles className="w-3 h-3 text-forest dark:text-gold" />
               </p>
             </div>
 
@@ -273,7 +273,7 @@ export function ProductDetailView({
 
               <div className="border-t border-gold/30 pt-2.5 mt-2 flex items-center justify-between text-[11px] font-semibold text-forest dark:text-cream">
                 <span>Paraben free · Natural · For all</span>
-                <span className="text-gold font-bold">100% Ayurvedic</span>
+                <span className="text-forest dark:text-gold font-bold">100% Ayurvedic</span>
               </div>
             </div>
           </motion.div>
@@ -343,6 +343,7 @@ export function ProductDetailView({
           <Button
             variant="gold"
             size="lg"
+            data-testid="detail-add-to-bag"
             onClick={handleAddToCart}
             className="flex-1 rounded-full font-bold shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
           >

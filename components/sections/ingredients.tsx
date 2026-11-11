@@ -113,7 +113,7 @@ export function IngredientsSection() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-semibold tracking-wider uppercase text-gold">
+          <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Earth to Root
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest dark:text-cream">

@@ -20,7 +20,7 @@ export function FaqSection() {
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10 space-y-3">
-          <span className="text-xs font-semibold tracking-wider uppercase text-gold">
+          <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Answers & Clarity
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest dark:text-cream">

@@ -24,7 +24,7 @@ export function ReviewsSection() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-semibold tracking-wider uppercase text-gold">
+          <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Voices of Care
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest dark:text-cream">
@@ -43,7 +43,7 @@ export function ReviewsSection() {
             >
               {/* Visible Sample Review Badge if demo */}
               {rev.isDemo && (
-                <div className="inline-block self-start px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
+                <div className="inline-block self-start px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-900 dark:text-amber-300 border border-amber-500/30">
                   Sample review — replace before launch
                 </div>
               )}

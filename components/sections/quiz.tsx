@@ -95,7 +95,7 @@ export function QuizSection() {
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10 space-y-3">
-          <span className="text-xs font-semibold tracking-wider uppercase text-gold">
+          <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Personalized Routine
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-forest dark:text-cream">
@@ -185,7 +185,7 @@ export function QuizSection() {
                 <h3 className="font-serif text-3xl font-bold text-foreground">
                   {matchedProduct.name}
                 </h3>
-                <p className="text-sm text-gold font-medium mt-1">
+                <p className="text-sm text-forest dark:text-gold font-medium mt-1">
                   {matchedProduct.tagline}
                 </p>
                 <p className="text-xs text-muted-foreground mt-3 leading-relaxed">

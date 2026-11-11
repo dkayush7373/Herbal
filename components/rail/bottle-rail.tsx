@@ -135,6 +135,7 @@ export function BottleRail() {
                         isActive={activeIdx === idx}
                         bottleRef={bottleRefs[idx]}
                         tagRef={tagRefs[idx]}
+                        role="button"
                         onSelect={handleOpenDetail}
                         onTap={handleBottleTap}
                         onKeyDown={handleKeyDown}
@@ -179,13 +180,13 @@ export function BottleRail() {
         {!hasInteracted && (
           <div
             data-testid="rail-interaction-hint"
-            className="flex items-center justify-center gap-2 mt-4 text-xs text-muted-foreground animate-pulse"
+            className="flex items-center justify-center gap-2 mt-4 text-xs text-forest dark:text-cream font-medium"
           >
-            <Sparkles className="w-3.5 h-3.5 text-gold hidden md:inline" />
+            <Sparkles className="w-3.5 h-3.5 text-forest dark:text-gold hidden md:inline" />
             <span className="hidden md:inline">
               Move your cursor across the bottles ✨
             </span>
-            <Touchpad className="w-3.5 h-3.5 text-gold md:hidden inline" />
+            <Touchpad className="w-3.5 h-3.5 text-forest dark:text-gold md:hidden inline" />
             <span className="md:hidden inline">Tap a bottle to explore</span>
           </div>
         )}
