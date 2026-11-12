@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
       cap: "#C9C3B4",
       accent: "#8A8474",
     },
-    image: "/images/oil-white.jpg",
+    image: "/images/bottles/oil-white.png",
     ingredients: [
       "Virgin Coconut Oil — Deeply nourishes hair shafts and locks in moisture",
       "Amla (Indian Gooseberry) — Rich in Vitamin C to support hair vitality",
@@ -72,7 +72,7 @@ export const PRODUCTS: Product[] = [
       cap: "#2E2E2E",
       accent: "#E8B923",
     },
-    image: "/images/oil-black.jpg",
+    image: "/images/bottles/oil-black.png",
     ingredients: [
       "Cold-Pressed Black Sesame Oil — Warm base that deeply penetrates root follicles",
       "Bhringraj (False Daisy) — Traditional Ayurvedic herb revered for root nourishment",
@@ -101,7 +101,7 @@ export const PRODUCTS: Product[] = [
       cap: "#17453A",
       accent: "#E8B923",
     },
-    image: "/images/oil-green.jpg",
+    image: "/images/bottles/oil-green.png",
     ingredients: [
       "Pure Sesame & Coconut Oil — Balanced carrier matrix rich in natural lipids",
       "Neem (Azadirachta Indica) — Keeps scalp balanced, clean, and invigorated",
@@ -130,7 +130,7 @@ export const PRODUCTS: Product[] = [
       cap: "#B85F1F",
       accent: "#FFF2DA",
     },
-    image: "/images/oil-orange.jpg",
+    image: "/images/bottles/oil-orange.png",
     ingredients: [
       "Cold-Pressed Almond & Castor Oil — Nutrient-dense fatty acids for dense hair care",
       "Methi (Fenugreek) Sprout Extract — Rich in amino acids for root nourishment",
@@ -159,7 +159,7 @@ export const PRODUCTS: Product[] = [
       cap: "#A75F6D",
       accent: "#FFF8E7",
     },
-    image: "/images/oil-pink.jpg",
+    image: "/images/bottles/oil-pink.png",
     ingredients: [
       "Organic Golden Jojoba Oil — Biomimetic natural wax that mimics scalp sebum",
       "Hibiscus Petal Infusion — Enhances luminous shine and smoothens cuticles",
