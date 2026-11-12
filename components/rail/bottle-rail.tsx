@@ -107,7 +107,7 @@ export function BottleRail() {
     <section
       id="rail"
       data-testid="bottle-rail-section"
-      className="relative w-full py-10 flex flex-col items-center"
+      className="relative w-full pt-6 pb-4 flex flex-col items-center"
       aria-label="Hanging Ayurvedic Hair Oil Collection"
     >
       <div className="w-full max-w-5xl mx-auto px-4">
@@ -177,18 +177,18 @@ export function BottleRail() {
           </div>
         )}
 
-        {/* Interaction Guidance Hint beneath Rail */}
+        {/* Interaction Guidance Hint beneath Rail (Clear 40px spacing beneath bottles, no overlap) */}
         {!hasInteracted && (
           <div
             data-testid="rail-interaction-hint"
-            className="flex items-center justify-center gap-2 mt-4 text-xs text-forest dark:text-cream font-medium"
+            className="flex items-center justify-center gap-2 mt-10 mb-2 text-xs text-forest dark:text-cream font-medium select-none"
           >
-            <Sparkles className="w-3.5 h-3.5 text-forest dark:text-gold hidden md:inline" />
-            <span className="hidden md:inline">
+            <Sparkles className="w-3.5 h-3.5 text-forest dark:text-gold hidden md:inline shrink-0" />
+            <span className="hidden md:inline tracking-wide">
               Move your cursor across the bottles ✨
             </span>
-            <Touchpad className="w-3.5 h-3.5 text-forest dark:text-gold md:hidden inline" />
-            <span className="md:hidden inline">Tap a bottle to explore</span>
+            <Touchpad className="w-3.5 h-3.5 text-forest dark:text-gold md:hidden inline shrink-0" />
+            <span className="md:hidden inline tracking-wide">Tap a bottle to explore</span>
           </div>
         )}
       </div>
