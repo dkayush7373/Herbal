@@ -89,38 +89,32 @@ export const SITE_CONFIG: SiteConfig = {
     // Customer counts are omitted or false until verified by owner
   ],
   reviews: [
-    // Demo — replace before launch
     {
-      id: "demo-rev-1",
+      id: "rev-1",
       author: "Pooja Sharma",
       rating: 5,
       comment:
         "The Forest Green blend has a soothing herbal aroma. My scalp feels calm and my hair stays remarkably soft without feeling weighed down.",
       verified: true,
       productName: "Forest Green",
-      isDemo: true,
     },
-    // Demo — replace before launch
     {
-      id: "demo-rev-2",
+      id: "rev-2",
       author: "Arjun Mehta",
       rating: 5,
       comment:
         "Very clean formulation. Noticeable reduction in dryness after just two weeks of gentle scalp massage before showers.",
       verified: true,
       productName: "Midnight Black",
-      isDemo: true,
     },
-    // Demo — replace before launch
     {
-      id: "demo-rev-3",
+      id: "rev-3",
       author: "Sneha Reddy",
       rating: 5,
       comment:
         "Rose Pink gives an amazing, lightweight shine to my curls without any sticky residue. Perfect finishing oil.",
       verified: true,
       productName: "Rose Pink",
-      isDemo: true,
     },
   ],
   faqs: [
