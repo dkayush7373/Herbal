@@ -3,41 +3,44 @@
  * Units: degrees, px/ms, frames. Frame-rate independent semi-implicit Euler integration.
  */
 
-export const SWING_LIMIT = 4; // degrees
-export const SWING_DAMP = 7;
-export const SWING_K = 32;
-export const COUPLE = 0.012;
+export const SWING_STRENGTH = 1.0; // Tune jiggle strength here (1.0 = gentle natural swing)
+
+export const SWING_LIMIT = 5.5; // Max swing angle: 4 to 6 degrees
+export const SWING_DAMP = 5.5;
+export const SWING_K = 28;
+export const COUPLE = 0.015;
 
 export const JIGGLE_CONFIG = {
-  // Angular spring-damper (calmed luxury sway: settles < 1.2s)
-  K_ANGLE: 0.27, // Scaled from SWING_K (32/26 * 0.22)
-  C_ANGLE: 0.18, // Scaled from SWING_DAMP (7/2.3 * 0.065)
-  MAX_ANGLE: 4, // SWING_LIMIT = 4 deg clamp
-  SWING_LIMIT: 4,
-  SWING_DAMP: 7,
-  SWING_K: 32,
-  COUPLE: 0.012,
+  // Angular spring-damper (natural gentle swing: settles in ~1.0s)
+  K_ANGLE: 0.24,
+  C_ANGLE: 0.14,
+  MAX_ANGLE: 5.5, // deg clamp
+  SWING_LIMIT: 5.5,
+  SWING_DAMP: 5.5,
+  SWING_K: 28,
+  COUPLE: 0.015,
+  SWING_STRENGTH,
 
   // Squash & stretch spring-damper
   K_SQUASH: 0.30,
   C_SQUASH: 0.15,
-  MAX_SQUASH: 0.06, // signed clamp
+  MAX_SQUASH: 0.04, // signed clamp
 
   // Liquid slosh
-  MAX_SLOSH_AMP: 0.5,
-  SLOSH_DECAY: 0.92,
+  MAX_SLOSH_AMP: 0.4,
+  SLOSH_DECAY: 0.90,
   SLOSH_FREQ: 0.15,
 
   // Traveling wave across rail
   WAVE_SPEED_THRESHOLD: 0.8, // px/ms
   WAVE_DELAY_PER_HOP_MS: 50, // ms
   WAVE_ATTENUATION_PER_HOP: 0.5,
-  NEIGHBOUR_COUPLING: 0.012, // COUPLE = 0.012
+  NEIGHBOUR_COUPLING: 0.015,
 
   // Pointer dead-zone and EMA smoothing
-  POINTER_DEAD_ZONE: 0.05, // px/ms
+  POINTER_DEAD_ZONE: 0.02, // px/ms
   POINTER_CLAMP_V: 1.5, // px/ms
-  POINTER_EMA_ALPHA: 0.2, // 0.8 * prev + 0.2 * raw
+  POINTER_EMA_ALPHA: 0.25,
   POINTER_IDLE_DECAY: 0.9,
 
   // Spatial influence radiuses
@@ -70,13 +73,18 @@ export function integrateAngle(
 ): { angle: number; angVel: number } {
   let nextAngVel =
     angVel +
-    (-JIGGLE_CONFIG.K_ANGLE * (angle - targetAngle) - JIGGLE_CONFIG.C_ANGLE * angVel + impulse) * f;
+    (-JIGGLE_CONFIG.K_ANGLE * (angle - targetAngle) - JIGGLE_CONFIG.C_ANGLE * angVel + impulse * SWING_STRENGTH) * f;
   if (Number.isNaN(nextAngVel)) nextAngVel = 0;
 
   let nextAngle = angle + nextAngVel * f;
   if (Number.isNaN(nextAngle)) nextAngle = 0;
 
-  nextAngle = clamp(nextAngle, -JIGGLE_CONFIG.MAX_ANGLE, JIGGLE_CONFIG.MAX_ANGLE);
+  // Clamp dynamic swing to ±MAX_ANGLE around the target resting angle
+  nextAngle = clamp(
+    nextAngle,
+    targetAngle - JIGGLE_CONFIG.MAX_ANGLE,
+    targetAngle + JIGGLE_CONFIG.MAX_ANGLE
+  );
 
   return { angle: nextAngle, angVel: nextAngVel };
 }

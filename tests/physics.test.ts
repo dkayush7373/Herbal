@@ -25,15 +25,15 @@ describe("Jiggle Physics Engine Unit Tests (§8 & §13)", () => {
     expect(step100).toBeCloseTo(3.0, 1);
   });
 
-  it("clamps angle to ±MAX_ANGLE (4 degrees) with zero NaN", () => {
+  it("clamps dynamic swing to ±MAX_ANGLE with zero NaN", () => {
     // Test extreme positive impulse
-    const highState = integrateAngle(25, 50, 100, 1.0);
+    const highState = integrateAngle(25, 50, 100, 1.0, 0);
     expect(highState.angle).toBe(JIGGLE_CONFIG.MAX_ANGLE);
     expect(Number.isNaN(highState.angle)).toBe(false);
     expect(Number.isNaN(highState.angVel)).toBe(false);
 
     // Test extreme negative impulse
-    const lowState = integrateAngle(-25, -50, -100, 1.0);
+    const lowState = integrateAngle(-25, -50, -100, 1.0, 0);
     expect(lowState.angle).toBe(-JIGGLE_CONFIG.MAX_ANGLE);
     expect(Number.isNaN(lowState.angle)).toBe(false);
   });

@@ -111,7 +111,7 @@ export function useJiggleEngine(
     pointerStateRef.current.bottleCenters = centers;
   }, [bottleRefs]);
 
-  // Pointer move handler on rail strip with 90ms throttle
+  // Pointer move handler on rail strip
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
       cancelIntroAndSway();
@@ -119,83 +119,39 @@ export function useJiggleEngine(
 
       const p = pointerStateRef.current;
       const now = performance.now();
-      p.x = e.clientX;
-      p.isOverRail = true;
-
-      // Hover throttle of 90ms: ignore rapid sub-pixel jitter
-      if (now - hoverThrottleRef.current < 90) {
-        return;
-      }
-      hoverThrottleRef.current = now;
-
       const dt = Math.max(16, now - (p.lastTime || now));
-      const rawV = (e.clientX - p.lastX) / dt;
+      const rawV = (e.clientX - (p.lastX || e.clientX)) / dt;
 
-      p.velocity = updatePointerVelocity(p.velocity, rawV, false);
+      p.x = e.clientX;
       p.lastX = e.clientX;
       p.lastTime = now;
+      p.isOverRail = true;
+      p.velocity = updatePointerVelocity(p.velocity, rawV, false);
 
-      // Apply impulses based on proximity - calmed to <= 1.2 deg
       const states = statesRef.current;
       const absV = Math.abs(p.velocity);
 
+      // Deadband check: ignore microscopic subpixel jitter
+      if (absV < 0.03) return;
+
+      if (p.bottleCenters.length === 0) {
+        updateBottleGeometry();
+      }
+
+      // Cursor movement gently drives swing (max 4 to 6 degrees)
       p.bottleCenters.forEach((center, idx) => {
         if (!states[idx]) return;
         const d = Math.abs(p.x - center);
         const infl = clamp(1 - d / JIGGLE_CONFIG.INFLUENCE_RADIUS, 0, 1);
+        if (infl <= 0) return;
 
-        const hoverNudge = clamp(p.velocity * 0.8 * infl, -1.2, 1.2);
+        // Neighboring bottles move slightly less via proximity influence
+        const hoverNudge = clamp(p.velocity * 1.8 * infl, -2.8, 2.8);
         states[idx].impulse += hoverNudge;
-        states[idx].squashImpulse += clamp(absV * 0.02 * infl, 0, 0.03);
-
-        if (d < JIGGLE_CONFIG.DIRECT_HIT_RADIUS) {
-          states[idx].impulse = clamp(states[idx].impulse, -1.2, 1.2);
-          states[idx].sloshAmp = clamp(
-            states[idx].sloshAmp + absV * 0.15,
-            0,
-            JIGGLE_CONFIG.MAX_SLOSH_AMP
-          );
-        }
+        states[idx].squashImpulse += clamp(absV * 0.02 * infl, 0, 0.02);
       });
-
-      // Traveling wave: neighbor reaction calmed to <= 0.6 deg
-      if (absV > JIGGLE_CONFIG.WAVE_SPEED_THRESHOLD) {
-        let nearestIdx = 0;
-        let minDist = Infinity;
-        p.bottleCenters.forEach((center, idx) => {
-          const d = Math.abs(p.x - center);
-          if (d < minDist) {
-            minDist = d;
-            nearestIdx = idx;
-          }
-        });
-
-        for (let hop = 1; hop < bottleCount; hop++) {
-          const delay = hop * JIGGLE_CONFIG.WAVE_DELAY_PER_HOP_MS;
-          const factor = Math.pow(JIGGLE_CONFIG.WAVE_ATTENUATION_PER_HOP, hop);
-          const kickImpulse = clamp(p.velocity * 0.6 * factor, -0.6, 0.6);
-          const kickSquash = clamp(absV * 0.02 * factor, 0, 0.02);
-
-          if (nearestIdx - hop >= 0) {
-            waveQueueRef.current.push({
-              targetBottleIdx: nearestIdx - hop,
-              triggerTime: now + delay,
-              impulse: kickImpulse,
-              squashImpulse: kickSquash,
-            });
-          }
-          if (nearestIdx + hop < bottleCount) {
-            waveQueueRef.current.push({
-              targetBottleIdx: nearestIdx + hop,
-              triggerTime: now + delay,
-              impulse: kickImpulse,
-              squashImpulse: kickSquash,
-            });
-          }
-        }
-      }
     },
-    [bottleCount, cancelIntroAndSway, shouldReduceMotion]
+    [cancelIntroAndSway, shouldReduceMotion, updateBottleGeometry]
   );
 
   const handlePointerLeave = useCallback(() => {
