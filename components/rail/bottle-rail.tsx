@@ -102,7 +102,7 @@ export function BottleRail() {
     <section
       id="rail"
       data-testid="bottle-rail-section"
-      className="relative w-full pt-6 pb-4 flex flex-col items-center"
+      className="relative w-full pt-6 pb-14 flex flex-col items-center"
       aria-label="Hanging Ayurvedic Hair Oil Collection"
     >
       <div className="w-full max-w-5xl mx-auto px-4">

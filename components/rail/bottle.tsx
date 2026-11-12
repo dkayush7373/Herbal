@@ -119,60 +119,73 @@ export function RailBottle({
       )}
       style={{ touchAction: "pan-y" }}
     >
-      {/* Hanging Bottle Assembly (Hook + Bottle swings from gold bar contact point) */}
+      {/* (a) Bottle Stage holding the swinging group (fixed height with swing clearance) */}
       <div
-        ref={bottleRef}
-        className={cn(
-          "relative flex flex-col items-center w-full max-w-[clamp(100px,11vw,132px)] will-change-transform",
-          isHovered && "scale-[1.03]"
-        )}
-        style={{
-          transformOrigin: "50% 6px",
-          maxHeight: "clamp(300px, 32vh, 345px)",
-        }}
+        className="relative w-full flex flex-col items-center justify-start pointer-events-none"
+        style={{ height: "clamp(345px, 37vh, 385px)" }}
       >
-        {/* Hook wrapping around the gold bar */}
-        <div className="z-10 pointer-events-none -mb-2.5">
-          <RailHook />
-        </div>
-
-        {/* Hanging ₹ Price Tag */}
-        <PriceTag price={price} productName={product.name} tagRef={tagRef} />
-
-        {/* Bottle Container with Glint Effect (DECK_ASPECT, with BottleEyelet) */}
-        <div className="relative w-full" style={{ aspectRatio: DECK_ASPECT }}>
-          <BottleEyelet h={MAX_H} />
-          <BottleImage
-            product={product}
-            priority={index === 0}
-            sizes="(max-width:768px) 60vw, 20vw"
-            className="w-full h-full"
-          />
-
-          {/* Gold Glint Sweep on Hover */}
-          {isHovered && (
-            <div
-              className="absolute inset-0 pointer-events-none z-20 animate-glint rounded-2xl"
-              style={{
-                background:
-                  "linear-gradient(105deg, transparent 40%, rgba(232, 185, 35, 0.55) 50%, transparent 60%)",
-                backgroundSize: "200% 100%",
-                animation: "glintSweep 0.6s ease-out forwards",
-              }}
-            />
+        {/* The swinging group (Hook + Bottle assembly that rotates as a real pendulum) */}
+        <div
+          ref={bottleRef}
+          className={cn(
+            "relative flex flex-col items-center w-full max-w-[clamp(100px,11vw,132px)] will-change-transform pointer-events-auto",
+            isHovered && "scale-[1.03]"
           )}
-        </div>
+          style={{
+            transformOrigin: "50% 6px",
+          }}
+        >
+          {/* Hook wrapping around the gold bar */}
+          <div className="z-10 pointer-events-none -mb-2.5">
+            <RailHook />
+          </div>
 
-        {/* Focus Ring Indicator (Accessible >= 3:1) */}
-        <div className="absolute inset-0 rounded-2xl pointer-events-none ring-offset-2 group-focus-visible:ring-2 group-focus-visible:ring-ring" />
+          {/* Hanging ₹ Price Tag */}
+          <PriceTag price={price} productName={product.name} tagRef={tagRef} />
+
+          {/* Bottle Container with Glint Effect (DECK_ASPECT, with BottleEyelet) */}
+          <div
+            className="relative w-full"
+            style={{
+              aspectRatio: DECK_ASPECT,
+              maxHeight: "clamp(290px, 32vh, 340px)",
+            }}
+          >
+            <BottleEyelet h={MAX_H} />
+            <BottleImage
+              product={product}
+              priority={index === 0}
+              sizes="(max-width:768px) 60vw, 20vw"
+              className="w-full h-full"
+            />
+
+            {/* Gold Glint Sweep on Hover */}
+            {isHovered && (
+              <div
+                className="absolute inset-0 pointer-events-none z-20 animate-glint rounded-2xl"
+                style={{
+                  background:
+                    "linear-gradient(105deg, transparent 40%, rgba(232, 185, 35, 0.55) 50%, transparent 60%)",
+                  backgroundSize: "200% 100%",
+                  animation: "glintSweep 0.6s ease-out forwards",
+                }}
+              />
+            )}
+          </div>
+
+          {/* Focus Ring Indicator (Accessible >= 3:1) */}
+          <div className="absolute inset-0 rounded-2xl pointer-events-none ring-offset-2 group-focus-visible:ring-2 group-focus-visible:ring-ring" />
+        </div>
       </div>
 
-      {/* Product Name Label beneath bottle (exactly 14px below bottom edge of bottle box) */}
-      <div className="mt-[14px] text-center pointer-events-none">
-        <p className="font-serif font-bold text-sm text-foreground group-hover:text-forest dark:group-hover:text-gold transition-colors">
+      {/* (b) Label block directly below it (OUTSIDE swinging group, in normal flow with >= 32px gap) */}
+      <div className="mt-8 text-center flex flex-col items-center pointer-events-none select-none">
+        <h3 className="font-serif font-bold text-sm sm:text-base text-foreground group-hover:text-forest dark:group-hover:text-gold transition-colors tracking-tight">
           {product.name}
+        </h3>
+        <p className="text-xs text-muted-foreground mt-1 tracking-normal">
+          {product.tagline}
         </p>
-        <p className="text-[11px] text-muted-foreground">{product.tagline}</p>
       </div>
     </div>
   );
