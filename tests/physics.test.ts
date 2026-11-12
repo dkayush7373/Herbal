@@ -25,26 +25,26 @@ describe("Jiggle Physics Engine Unit Tests (§8 & §13)", () => {
     expect(step100).toBeCloseTo(3.0, 1);
   });
 
-  it("clamps angle to ±28 degrees with zero NaN", () => {
+  it("clamps angle to ±MAX_ANGLE (4 degrees) with zero NaN", () => {
     // Test extreme positive impulse
     const highState = integrateAngle(25, 50, 100, 1.0);
-    expect(highState.angle).toBe(28);
+    expect(highState.angle).toBe(JIGGLE_CONFIG.MAX_ANGLE);
     expect(Number.isNaN(highState.angle)).toBe(false);
     expect(Number.isNaN(highState.angVel)).toBe(false);
 
     // Test extreme negative impulse
     const lowState = integrateAngle(-25, -50, -100, 1.0);
-    expect(lowState.angle).toBe(-28);
+    expect(lowState.angle).toBe(-JIGGLE_CONFIG.MAX_ANGLE);
     expect(Number.isNaN(lowState.angle)).toBe(false);
   });
 
-  it("clamps squash to ±0.12 with zero NaN", () => {
+  it("clamps squash to ±MAX_SQUASH with zero NaN", () => {
     const highSquash = integrateSquash(0.1, 0.5, 1.0, 1.0);
-    expect(highSquash.squash).toBe(0.12);
+    expect(highSquash.squash).toBe(JIGGLE_CONFIG.MAX_SQUASH);
     expect(Number.isNaN(highSquash.squash)).toBe(false);
 
     const lowSquash = integrateSquash(-0.1, -0.5, -1.0, 1.0);
-    expect(lowSquash.squash).toBe(-0.12);
+    expect(lowSquash.squash).toBe(-JIGGLE_CONFIG.MAX_SQUASH);
     expect(Number.isNaN(lowSquash.squash)).toBe(false);
   });
 
@@ -76,12 +76,12 @@ describe("Jiggle Physics Engine Unit Tests (§8 & §13)", () => {
     const couplings = calculateNeighbourCoupling(angles);
 
     expect(couplings).toHaveLength(5);
-    // Bottle 0 left edge mirrors bottle 0: left=10, right=5, center=10 -> 0.06 * (10 + 5 - 20) = -0.30
-    expect(couplings[0]).toBeCloseTo(0.06 * (10 + 5 - 20), 4);
-    // Bottle 2: left=5, right=-5, center=0 -> 0.06 * (5 + -5 - 0) = 0
+    // Bottle 0 left edge mirrors bottle 0: left=10, right=5, center=10
+    expect(couplings[0]).toBeCloseTo(JIGGLE_CONFIG.NEIGHBOUR_COUPLING * (10 + 5 - 20), 4);
+    // Bottle 2: left=5, right=-5, center=0
     expect(couplings[2]).toBeCloseTo(0, 4);
-    // Bottle 4 right edge mirrors bottle 4: left=-5, right=-10, center=-10 -> 0.06 * (-5 + -10 - (-20)) = 0.30
-    expect(couplings[4]).toBeCloseTo(0.06 * (-5 - 10 + 20), 4);
+    // Bottle 4 right edge mirrors bottle 4: left=-5, right=-10, center=-10
+    expect(couplings[4]).toBeCloseTo(JIGGLE_CONFIG.NEIGHBOUR_COUPLING * (-5 - 10 + 20), 4);
   });
 
   it("applies pointer dead-zone (<0.05 px/ms) and idle decay", () => {

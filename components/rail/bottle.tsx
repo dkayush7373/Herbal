@@ -59,7 +59,7 @@ export function RailBottle({
     if (Math.abs(dx) > 6) {
       dragStartRef.current.moved = true;
       if (bottleRef.current) {
-        const dragAngle = Math.max(-28, Math.min(28, dx / 8));
+        const dragAngle = Math.max(-4, Math.min(4, dx / 20));
         bottleRef.current.style.transform = `rotate(${dragAngle.toFixed(2)}deg)`;
       }
     }

@@ -3,37 +3,46 @@
  * Units: degrees, px/ms, frames. Frame-rate independent semi-implicit Euler integration.
  */
 
+export const SWING_LIMIT = 4; // degrees
+export const SWING_DAMP = 7;
+export const SWING_K = 32;
+export const COUPLE = 0.012;
+
 export const JIGGLE_CONFIG = {
-  // Angular spring-damper (underdamped, 3-5 visible wobbles, settles < 1.8s)
-  K_ANGLE: 0.22,
-  C_ANGLE: 0.065,
-  MAX_ANGLE: 28, // deg clamp
+  // Angular spring-damper (calmed luxury sway: settles < 1.2s)
+  K_ANGLE: 0.27, // Scaled from SWING_K (32/26 * 0.22)
+  C_ANGLE: 0.18, // Scaled from SWING_DAMP (7/2.3 * 0.065)
+  MAX_ANGLE: 4, // SWING_LIMIT = 4 deg clamp
+  SWING_LIMIT: 4,
+  SWING_DAMP: 7,
+  SWING_K: 32,
+  COUPLE: 0.012,
 
   // Squash & stretch spring-damper
   K_SQUASH: 0.30,
-  C_SQUASH: 0.10,
-  MAX_SQUASH: 0.12, // signed clamp
+  C_SQUASH: 0.15,
+  MAX_SQUASH: 0.06, // signed clamp
 
   // Liquid slosh
-  MAX_SLOSH_AMP: 1.0,
-  SLOSH_DECAY: 0.94,
-  SLOSH_FREQ: 0.2,
+  MAX_SLOSH_AMP: 0.5,
+  SLOSH_DECAY: 0.92,
+  SLOSH_FREQ: 0.15,
 
   // Traveling wave across rail
-  WAVE_SPEED_THRESHOLD: 0.6, // px/ms
-  WAVE_DELAY_PER_HOP_MS: 45, // ms
-  WAVE_ATTENUATION_PER_HOP: 0.6,
-  NEIGHBOUR_COUPLING: 0.06,
+  WAVE_SPEED_THRESHOLD: 0.8, // px/ms
+  WAVE_DELAY_PER_HOP_MS: 50, // ms
+  WAVE_ATTENUATION_PER_HOP: 0.5,
+  NEIGHBOUR_COUPLING: 0.012, // COUPLE = 0.012
 
   // Pointer dead-zone and EMA smoothing
   POINTER_DEAD_ZONE: 0.05, // px/ms
-  POINTER_CLAMP_V: 3.0, // px/ms
+  POINTER_CLAMP_V: 1.5, // px/ms
   POINTER_EMA_ALPHA: 0.2, // 0.8 * prev + 0.2 * raw
   POINTER_IDLE_DECAY: 0.9,
 
   // Spatial influence radiuses
-  INFLUENCE_RADIUS: 220, // px
-  DIRECT_HIT_RADIUS: 80, // px
+  INFLUENCE_RADIUS: 180, // px
+  DIRECT_HIT_RADIUS: 60, // px
 } as const;
 
 export function clamp(val: number, min: number, max: number): number {
