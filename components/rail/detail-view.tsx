@@ -22,7 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { BottleImage } from "@/components/bottle-image";
+import { BottleImage, DECK_ASPECT } from "@/components/bottle-image";
 import { useCart } from "@/lib/cart-context";
 import { getOrCreateVisitorReferralCode } from "@/lib/referral";
 import { toast } from "sonner";
@@ -216,7 +216,8 @@ export function ProductDetailView({
                     ? { duration: 0 }
                     : { type: "spring", stiffness: 220, damping: 15 }
                 }
-                className="w-36 h-[270px] flex items-center justify-center"
+                className="h-[270px] flex items-center justify-center mx-auto"
+                style={{ aspectRatio: DECK_ASPECT }}
               >
                 <BottleImage
                   product={product}

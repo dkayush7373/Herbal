@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useCallback } from "react";
 import { Product, getPrice } from "@/lib/products";
-import { BottleImage } from "@/components/bottle-image";
+import { BottleImage, DECK_ASPECT, MAX_H } from "@/components/bottle-image";
 import { PriceTag } from "@/components/rail/price-tag";
 import { RailHook } from "@/components/rail/rail";
 import { cn } from "@/lib/utils";
@@ -133,6 +133,7 @@ export function RailBottle({
         )}
         style={{
           transformOrigin: "50% 0px",
+          maxHeight: MAX_H,
           transition: "transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)",
         }}
       >
@@ -142,8 +143,8 @@ export function RailBottle({
         {/* Hanging ₹ Price Tag */}
         <PriceTag price={price} productName={product.name} tagRef={tagRef} />
 
-        {/* Clipped Bottle Container with Glint Effect */}
-        <div className="relative w-full aspect-[450/1000] overflow-hidden">
+        {/* Bottle Container with Glint Effect (No overflow-hidden, DECK_ASPECT) */}
+        <div className="relative w-full" style={{ aspectRatio: DECK_ASPECT }}>
           <BottleImage
             product={product}
             priority={index === 0}
@@ -154,7 +155,7 @@ export function RailBottle({
           {/* Gold Glint Sweep on Hover */}
           {isHovered && (
             <div
-              className="absolute inset-0 pointer-events-none z-20 animate-glint"
+              className="absolute inset-0 pointer-events-none z-20 animate-glint rounded-2xl"
               style={{
                 background:
                   "linear-gradient(105deg, transparent 40%, rgba(232, 185, 35, 0.55) 50%, transparent 60%)",

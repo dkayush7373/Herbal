@@ -12,6 +12,7 @@ import {
   updatePointerVelocity,
   clamp,
 } from "./jiggle";
+import { restAngle } from "@/components/bottle-image";
 
 export interface BottlePhysicsState {
   angle: number;
@@ -48,8 +49,8 @@ export function useJiggleEngine(
 
   // Bottle physics states held in refs for 60fps performance without re-renders
   const statesRef = useRef<BottlePhysicsState[]>(
-    Array.from({ length: bottleCount }, () => ({
-      angle: 0,
+    Array.from({ length: bottleCount }, (_, idx) => ({
+      angle: restAngle(idx),
       angVel: 0,
       squash: 0,
       squashVel: 0,
@@ -285,20 +286,28 @@ export function useJiggleEngine(
         if (!s) continue;
 
         if (shouldReduceMotion) {
-          s.angle = 0;
+          s.angle = restAngle(i);
           s.angVel = 0;
           s.squash = 0;
           s.squashVel = 0;
           s.sloshAmp = 0;
           s.tagAngle = 0;
+          const bottleEl = bottleRefs[i]?.current;
+          if (bottleEl) {
+            bottleEl.style.transform = `rotate(${restAngle(i).toFixed(2)}deg)`;
+          }
+          const tagEl = tagRefs[i]?.current;
+          if (tagEl) {
+            tagEl.style.transform = `rotate(-8deg)`;
+          }
           continue;
         }
 
         // Add neighbour coupling force
         const totalImpulse = s.impulse + couplings[i];
 
-        // Integrate angle
-        const nextAngleState = integrateAngle(s.angle, s.angVel, totalImpulse, f);
+        // Integrate angle with target resting angle
+        const nextAngleState = integrateAngle(s.angle, s.angVel, totalImpulse, f, restAngle(i));
         s.angle = nextAngleState.angle;
         s.angVel = nextAngleState.angVel;
 

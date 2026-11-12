@@ -56,9 +56,12 @@ export function integrateAngle(
   angle: number,
   angVel: number,
   impulse: number,
-  f: number
+  f: number,
+  targetAngle: number = 0
 ): { angle: number; angVel: number } {
-  let nextAngVel = angVel + (-JIGGLE_CONFIG.K_ANGLE * angle - JIGGLE_CONFIG.C_ANGLE * angVel + impulse) * f;
+  let nextAngVel =
+    angVel +
+    (-JIGGLE_CONFIG.K_ANGLE * (angle - targetAngle) - JIGGLE_CONFIG.C_ANGLE * angVel + impulse) * f;
   if (Number.isNaN(nextAngVel)) nextAngVel = 0;
 
   let nextAngle = angle + nextAngVel * f;
