@@ -23,6 +23,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { BottleImage, DECK_ASPECT } from "@/components/bottle-image";
+import { BottleEyelet } from "@/components/rail/rail";
 import { useCart } from "@/lib/cart-context";
 import { getOrCreateVisitorReferralCode } from "@/lib/referral";
 import { toast } from "sonner";
@@ -216,9 +217,10 @@ export function ProductDetailView({
                     ? { duration: 0 }
                     : { type: "spring", stiffness: 220, damping: 15 }
                 }
-                className="h-[270px] flex items-center justify-center mx-auto"
+                className="relative h-[270px] flex items-center justify-center mx-auto"
                 style={{ aspectRatio: DECK_ASPECT }}
               >
+                <BottleEyelet h={270} />
                 <BottleImage
                   product={product}
                   priority

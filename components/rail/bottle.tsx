@@ -4,7 +4,7 @@ import React, { useRef, useState, useCallback } from "react";
 import { Product, getPrice } from "@/lib/products";
 import { BottleImage, DECK_ASPECT, MAX_H } from "@/components/bottle-image";
 import { PriceTag } from "@/components/rail/price-tag";
-import { RailHook } from "@/components/rail/rail";
+import { RailHook, BottleEyelet } from "@/components/rail/rail";
 import { cn } from "@/lib/utils";
 
 interface RailBottleProps {
@@ -119,12 +119,12 @@ export function RailBottle({
       )}
       style={{ touchAction: "pan-y" }}
     >
-      {/* Chrome Hook attaching bottle to the rail */}
-      <div className="z-10 pointer-events-none">
+      {/* Hook attaching bottle to the rail */}
+      <div className="z-10 pointer-events-none -mb-2.5">
         <RailHook />
       </div>
 
-      {/* Hanging Bottle Rig (Rotates and Squashes around Hook Top-Center) */}
+      {/* Hanging Bottle Rig (Rotates around Hook Top-Center) */}
       <div
         ref={bottleRef}
         className={cn(
@@ -137,14 +137,12 @@ export function RailBottle({
           transition: "transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)",
         }}
       >
-        {/* Metal suspension ring around neck */}
-        <div className="w-10 h-3 rounded-full border-2 border-slate-300 dark:border-gold/60 shadow-sm mt-[-10px] mb-[-4px] z-10" />
-
         {/* Hanging ₹ Price Tag */}
         <PriceTag price={price} productName={product.name} tagRef={tagRef} />
 
-        {/* Bottle Container with Glint Effect (No overflow-hidden, DECK_ASPECT) */}
+        {/* Bottle Container with Glint Effect (DECK_ASPECT, with BottleEyelet) */}
         <div className="relative w-full" style={{ aspectRatio: DECK_ASPECT }}>
+          <BottleEyelet h={MAX_H} />
           <BottleImage
             product={product}
             priority={index === 0}

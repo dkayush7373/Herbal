@@ -8,6 +8,8 @@
     --gold: #E8B923;
     --cream: #FFF8E7;
     --charcoal: #1E1E1E;
+    --rail-ink: #C9A24A;
+    --hook-metal: #D4AF37;
 
     /* Light mode: Cream background, Forest/Charcoal text */
     --background: 44 100% 95%; /* #FFF8E7 in HSL approx */
@@ -70,6 +72,8 @@
     --border: 0 0% 25%;
     --input: 0 0% 25%;
     --ring: 46 80% 52%; /* Dark focus ring = Gold (9.05:1 contrast on charcoal) */
+    --rail-ink: #A8842F;
+    --hook-metal: #B8962E;
   }
 }
 
