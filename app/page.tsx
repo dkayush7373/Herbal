@@ -24,7 +24,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Main Content Sections */}
-      <div className="flex-1 space-y-16 sm:space-y-24">
+      <main id="main" className="flex-1 space-y-16 sm:space-y-24">
         {/* 3. Hero with H1, 4 Trust Pills & Bottle Rail */}
         <Hero />
 
@@ -54,7 +54,7 @@ export default function HomePage() {
 
         {/* 12. Ayurvedic Herbal Circle Newsletter */}
         <NewsletterSection />
-      </div>
+      </main>
 
       {/* 13. Brand Footer with Social Links */}
       <Footer />
