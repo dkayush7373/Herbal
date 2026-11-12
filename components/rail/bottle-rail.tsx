@@ -7,14 +7,12 @@ import { RailBottle } from "@/components/rail/bottle";
 import { ProductDetailView } from "@/components/rail/detail-view";
 import { useJiggleEngine } from "@/lib/physics/use-jiggle-engine";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { Sparkles, Touchpad } from "lucide-react";
 
 export function BottleRail() {
   const [mounted, setMounted] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Responsive check SSR-safe with desktop default until mounted
@@ -52,14 +50,12 @@ export function BottleRail() {
   const handleOpenDetail = useCallback((product: Product) => {
     setSelectedProduct(product);
     setIsDetailOpen(true);
-    setHasInteracted(true);
     cancelIntroAndSway();
   }, [cancelIntroAndSway]);
 
   const handleBottleTap = useCallback(
     (index: number) => {
       setActiveIdx(index);
-      setHasInteracted(true);
       triggerTapImpulse(index);
     },
     [triggerTapImpulse]
@@ -68,7 +64,6 @@ export function BottleRail() {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent, index: number) => {
       cancelIntroAndSway();
-      setHasInteracted(true);
 
       if (e.key === "ArrowRight") {
         e.preventDefault();
@@ -174,21 +169,6 @@ export function BottleRail() {
                 ))}
               </div>
             </RailBar>
-          </div>
-        )}
-
-        {/* Interaction Guidance Hint beneath Rail (Clear 40px spacing beneath bottles, no overlap) */}
-        {!hasInteracted && (
-          <div
-            data-testid="rail-interaction-hint"
-            className="flex items-center justify-center gap-2 mt-10 mb-2 text-xs text-forest dark:text-cream font-medium select-none"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-forest dark:text-gold hidden md:inline shrink-0" />
-            <span className="hidden md:inline tracking-wide">
-              Move your cursor across the bottles ✨
-            </span>
-            <Touchpad className="w-3.5 h-3.5 text-forest dark:text-gold md:hidden inline shrink-0" />
-            <span className="md:hidden inline tracking-wide">Tap a bottle to explore</span>
           </div>
         )}
       </div>

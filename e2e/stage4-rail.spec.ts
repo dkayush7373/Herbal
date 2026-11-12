@@ -24,10 +24,6 @@ test.describe("Stage 4: Hanging Bottle Rail & Jiggle Engine Spec", () => {
       await expect(page.locator(`[data-testid="rail-bottle-${id}"]`)).toBeVisible();
     }
 
-    // 3. Verify interaction guidance hint is visible initially
-    const hint = page.locator('[data-testid="rail-interaction-hint"]');
-    await expect(hint).toBeVisible();
-
     // 4. Simulate pointer sweep across the bottles
     const railBox = await rail.boundingBox();
     if (railBox) {
