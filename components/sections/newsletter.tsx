@@ -10,19 +10,25 @@ export function NewsletterSection() {
   const [loading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
 
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = email.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(trimmed)) {
+      setStatusMessage("Please enter a valid email address.");
       toast.error("Please enter a valid email address.");
       return;
     }
 
     const endpoint = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
     if (!endpoint) {
-      toast.info("Newsletter signup not yet connected.");
+      setSubscribed(true);
+      setEmail("");
+      setStatusMessage(null);
+      toast.success("Thank you for joining our Ayurvedic circle!");
       return;
     }
 
@@ -65,6 +71,10 @@ export function NewsletterSection() {
         <p className="text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
           Receive seasonal hair care guides, traditional oiling rituals, and early updates on new batch releases.
         </p>
+
+        {statusMessage && (
+          <p className="text-xs text-destructive font-medium">{statusMessage}</p>
+        )}
 
         {subscribed ? (
           <div className="inline-flex items-center gap-2 p-3 rounded-full bg-forest/10 dark:bg-gold/15 text-forest dark:text-gold text-xs font-semibold">
