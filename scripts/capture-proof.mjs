@@ -9,7 +9,7 @@ if (!fs.existsSync(proofDir)) {
 
 async function run() {
   console.log("Launching Chromium...");
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ channel: "chrome" });
 
   // 1. Desktop full view at 1440px
   {
