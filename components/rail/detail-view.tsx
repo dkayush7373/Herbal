@@ -29,6 +29,9 @@ import { getOrCreateVisitorReferralCode } from "@/lib/referral";
 import { toast } from "sonner";
 import { RotateCw, Share2, Check, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MODAL_COPY } from "@/lib/modal-copy";
+import { ModalHeader } from "@/components/product-modal/header";
+import { TrustBadges } from "@/components/product-modal/trust-badges";
 
 interface ProductDetailViewProps {
   product: Product | null;
@@ -155,31 +158,11 @@ export function ProductDetailView({
         className="max-w-lg sm:rounded-3xl p-6 bg-background border border-border shadow-2xl overflow-hidden"
         aria-labelledby="product-detail-title"
       >
-        <DialogHeader className="text-left border-b border-border/40 pb-3">
-          <div className="flex items-center justify-between">
-            <span className="inline-block rounded-full bg-forest/10 px-3 py-0.5 text-[11px] font-semibold tracking-wider text-forest uppercase dark:bg-gold/15 dark:text-gold">
-              100% Ayurvedic
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleToggleFlip}
-              className="text-xs gap-1.5 text-muted-foreground hover:text-foreground h-7 px-2.5 rounded-full"
-            >
-              <RotateCw className="w-3.5 h-3.5" />
-              <span>{activeFace === "front" ? "View Details" : "View Bottle"}</span>
-            </Button>
-          </div>
-          <DialogTitle
-            id="product-detail-title"
-            className="font-serif text-2xl sm:text-3xl font-bold text-foreground mt-1"
-          >
-            {product.name}
-          </DialogTitle>
-          <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
-            {product.tagline}
-          </DialogDescription>
-        </DialogHeader>
+        <ModalHeader
+          product={product}
+          activeFace={activeFace}
+          onToggleFlip={handleToggleFlip}
+        />
 
         {/* 3D Flip Card Container with Perspective */}
         <div
@@ -284,11 +267,18 @@ export function ProductDetailView({
 
         {/* Size Selection Chips (Tooltip on unpriced 200 ml) */}
         <div className="space-y-2 pt-2 border-t border-border/40">
-          <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
-            <span>Select Bottle Size:</span>
-            <span className="font-serif text-lg font-bold text-forest dark:text-gold">
-              {currentPrice !== null ? formatINR(currentPrice) : "Price on release"}
-            </span>
+          <div className="flex items-baseline justify-between text-xs font-semibold text-muted-foreground">
+            <span className="font-medium">Select Bottle Size:</span>
+            <div className="text-right">
+              <span className="font-serif text-lg font-bold text-forest dark:text-gold">
+                {currentPrice !== null
+                  ? `${formatINR(currentPrice)} ${MODAL_COPY.perBottleSuffix}`
+                  : "Price on release"}
+              </span>
+              <p className="text-[10px] text-muted-foreground/80 font-normal">
+                {MODAL_COPY.inclusiveOfTaxes}
+              </p>
+            </div>
           </div>
 
           <TooltipProvider delayDuration={150}>
@@ -372,6 +362,9 @@ export function ProductDetailView({
             )}
           </Button>
         </div>
+
+        {/* Flag-Gated Trust Badges Row */}
+        <TrustBadges className="mt-2" />
       </DialogContent>
     </Dialog>
   );
