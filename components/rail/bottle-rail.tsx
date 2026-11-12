@@ -128,7 +128,7 @@ export function BottleRail() {
                       key={product.id}
                       className="pl-2 basis-[75%] sm:basis-[60%]"
                     >
-                      <div className="p-2 flex flex-col items-center">
+                      <div className="pt-0 pb-2 px-2 flex flex-col items-center">
                         <RailBottle
                           product={product}
                           index={idx}
@@ -149,7 +149,7 @@ export function BottleRail() {
           </div>
         ) : (
           <div
-            className="w-full py-6 select-none"
+            className="w-full py-4 select-none"
             onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
           >
@@ -157,7 +157,7 @@ export function BottleRail() {
               <div
                 role="listbox"
                 aria-label="Ayurvedic Hair Oils"
-                className="grid grid-cols-5 gap-4 pt-4 px-6 items-start"
+                className="grid grid-cols-5 gap-3 md:gap-4 lg:gap-6 pt-0 px-6 items-start"
               >
                 {PRODUCTS.map((product, idx) => (
                   <RailBottle

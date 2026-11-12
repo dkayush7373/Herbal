@@ -105,8 +105,8 @@ export function RailBar({ children }: { children: React.ReactNode }) {
         <RailBracket side="right" />
       </div>
 
-      {/* Hanging items attached beneath the rail bar */}
-      <div className="w-full relative mt-[-6px]">{children}</div>
+      {/* Hanging items attached directly around the rail bar */}
+      <div className="w-full relative mt-[-10px]">{children}</div>
     </div>
   );
 }

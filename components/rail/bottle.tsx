@@ -119,24 +119,23 @@ export function RailBottle({
       )}
       style={{ touchAction: "pan-y" }}
     >
-      {/* Hook attaching bottle to the rail */}
-      <div className="z-10 pointer-events-none -mb-2.5">
-        <RailHook />
-      </div>
-
-      {/* Hanging Bottle Rig (Rotates around Hook Top-Center) */}
+      {/* Hanging Bottle Assembly (Hook + Bottle swings from gold bar contact point) */}
       <div
         ref={bottleRef}
         className={cn(
-          "relative flex flex-col items-center w-full max-w-[clamp(100px,11vw,132px)] origin-top transition-shadow will-change-transform",
-          isHovered && "scale-[1.04]"
+          "relative flex flex-col items-center w-full max-w-[clamp(100px,11vw,132px)] will-change-transform",
+          isHovered && "scale-[1.03]"
         )}
         style={{
-          transformOrigin: "50% 0px",
+          transformOrigin: "50% 6px",
           maxHeight: "clamp(300px, 32vh, 345px)",
-          transition: "transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)",
         }}
       >
+        {/* Hook wrapping around the gold bar */}
+        <div className="z-10 pointer-events-none -mb-2.5">
+          <RailHook />
+        </div>
+
         {/* Hanging ₹ Price Tag */}
         <PriceTag price={price} productName={product.name} tagRef={tagRef} />
 
