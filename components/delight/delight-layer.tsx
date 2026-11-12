@@ -109,7 +109,7 @@ export function DelightLayer() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-50 overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-20 overflow-hidden"
       aria-hidden="true"
     />
   );
