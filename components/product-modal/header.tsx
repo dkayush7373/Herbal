@@ -51,7 +51,11 @@ export function ModalHeader({
       >
         {product.name}
       </DialogTitle>
-      <DialogDescription className="text-xs sm:text-sm text-muted-foreground">
+      <DialogDescription
+        id="product-detail-description"
+        data-testid="product-detail-tagline"
+        className="text-xs sm:text-sm text-muted-foreground"
+      >
         {product.tagline}
       </DialogDescription>
 

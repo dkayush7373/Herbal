@@ -25,6 +25,7 @@ export function BenefitChips({ benefits, badge, className }: BenefitChipsProps) 
         {benefits.map((b, i) => (
           <span
             key={i}
+            data-testid="benefit-chip"
             className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-muted/50 text-foreground/80 border border-border/40"
           >
             <Sparkles className="w-2.5 h-2.5 text-forest dark:text-gold" />

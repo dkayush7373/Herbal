@@ -157,6 +157,7 @@ export function ProductDetailView({
       <DialogContent
         className="max-w-lg sm:rounded-3xl p-6 bg-background border border-border shadow-2xl overflow-hidden"
         aria-labelledby="product-detail-title"
+        aria-describedby="product-detail-description"
       >
         <ModalHeader
           product={product}
