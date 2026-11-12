@@ -16,7 +16,7 @@ pnpm dev
 # Type check
 npx tsc --noEmit
 
-# Lint check
+# Lint check (using ESLint 9 Flat Config)
 pnpm lint
 
 # Unit and integration test suites
