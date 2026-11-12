@@ -70,11 +70,10 @@ export const SITE_CONFIG: SiteConfig = {
     reward: undefined,
   },
   socials: {
-    // Demo — replace before launch (empty/undefined links render accessible non-links)
-    instagram: "https://instagram.com",
-    facebook: undefined,
-    x: undefined,
-    youtube: undefined,
+    instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "https://instagram.com",
+    facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "https://facebook.com",
+    x: process.env.NEXT_PUBLIC_SOCIAL_X || "https://x.com",
+    youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || "https://youtube.com",
   },
   trustPills: [
     "100% Natural",
