@@ -113,38 +113,39 @@ export function BottleRail() {
       <div className="w-full max-w-5xl mx-auto px-4">
         {/* Render Mobile Carousel on <768px, Desktop Rail on >=768px */}
         {mounted && isMobile ? (
-          <div className="w-full overflow-hidden">
-            <div className="border-t-2 border-slate-300 dark:border-gold/30 mb-6" />
-            <Carousel
-              opts={{
-                align: "center",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2">
-                {PRODUCTS.map((product, idx) => (
-                  <CarouselItem
-                    key={product.id}
-                    className="pl-2 basis-[75%] sm:basis-[60%]"
-                  >
-                    <div className="p-2 flex flex-col items-center">
-                      <RailBottle
-                        product={product}
-                        index={idx}
-                        isActive={activeIdx === idx}
-                        bottleRef={bottleRefs[idx]}
-                        tagRef={tagRefs[idx]}
-                        role="button"
-                        onSelect={handleOpenDetail}
-                        onTap={handleBottleTap}
-                        onKeyDown={handleKeyDown}
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+          <div className="w-full">
+            <RailBar>
+              <Carousel
+                opts={{
+                  align: "center",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2">
+                  {PRODUCTS.map((product, idx) => (
+                    <CarouselItem
+                      key={product.id}
+                      className="pl-2 basis-[75%] sm:basis-[60%]"
+                    >
+                      <div className="p-2 flex flex-col items-center">
+                        <RailBottle
+                          product={product}
+                          index={idx}
+                          isActive={activeIdx === idx}
+                          bottleRef={bottleRefs[idx]}
+                          tagRef={tagRefs[idx]}
+                          role="button"
+                          onSelect={handleOpenDetail}
+                          onTap={handleBottleTap}
+                          onKeyDown={handleKeyDown}
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </RailBar>
           </div>
         ) : (
           <div

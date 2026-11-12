@@ -168,8 +168,8 @@ export function RailBottle({
         <div className="absolute inset-0 rounded-2xl pointer-events-none ring-offset-2 group-focus-visible:ring-2 group-focus-visible:ring-ring" />
       </div>
 
-      {/* Product Name Label beneath bottle */}
-      <div className="mt-3 text-center pointer-events-none">
+      {/* Product Name Label beneath bottle (exactly 14px below bottom edge of bottle box) */}
+      <div className="mt-[14px] text-center pointer-events-none">
         <p className="font-serif font-bold text-sm text-foreground group-hover:text-forest dark:group-hover:text-gold transition-colors">
           {product.name}
         </p>

@@ -77,10 +77,10 @@ export const SITE_CONFIG: SiteConfig = {
     youtube: undefined,
   },
   trustPills: [
-    "Natural Care",
-    "No Chemicals",
-    "Nourished Hair",
-    "Paraben Free",
+    "100% Natural",
+    "Paraben & Sulfate Free",
+    "Men, Women & Kids",
+    "Authentic Ayurvedic",
   ],
   counters: [
     { label: "Natural Ingredients", value: 100, suffix: "%", verified: true },

@@ -7,10 +7,10 @@ import { ArrowDown, Sparkles, ShieldCheck, Leaf, HeartHandshake } from "lucide-r
 import { useReducedMotion } from "framer-motion";
 
 const TRUST_PILLS = [
-  { label: "100% Natural Botanicals", icon: Leaf },
-  { label: "0 Parabens & Sulfates", icon: ShieldCheck },
-  { label: "For Men, Women & Children", icon: HeartHandshake },
-  { label: "Authentic Ayurvedic Heritage", icon: Sparkles },
+  { label: "100% Natural", icon: Leaf },
+  { label: "Paraben & Sulfate Free", icon: ShieldCheck },
+  { label: "Men, Women & Kids", icon: HeartHandshake },
+  { label: "Authentic Ayurvedic", icon: Sparkles },
 ];
 
 export function Hero() {
@@ -65,25 +65,25 @@ export function Hero() {
           </a>
         </div>
 
-        {/* 4 Trust Pills */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 max-w-3xl mx-auto">
+        {/* 4 Trust Chips */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-2 max-w-3xl mx-auto">
           {TRUST_PILLS.map((pill, i) => {
             const Icon = pill.icon;
             return (
               <div
                 key={i}
-                className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-card border border-border/60 text-xs font-medium text-foreground shadow-sm"
+                className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-card border border-border/60 text-xs font-medium text-foreground shadow-sm whitespace-nowrap"
               >
                 <Icon className="w-3.5 h-3.5 text-gold shrink-0" />
-                <span className="truncate">{pill.label}</span>
+                <span>{pill.label}</span>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Hanging Bottle Rail (Above the fold on desktop >= 768px) */}
-      <div className="w-full mt-8">
+      {/* Hanging Bottle Rail (Above the fold on desktop >= 768px, gap <= 32px from trust chips) */}
+      <div className="w-full mt-6">
         <BottleRail />
       </div>
     </section>
