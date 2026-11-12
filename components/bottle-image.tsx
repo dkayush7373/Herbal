@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export const DECK_ASPECT = 0.30;
 export const HOLE_Y = 0.022;
 export const HOOK_LEN = 0.07;
-export const MAX_H = 440;
+export const MAX_H = 345; // reduced by ~22% for laptop viewport fit (1366x768 & 1920x1080)
 
 export function restAngle(i: number): number {
   return -5 - ((i * 5 + 3) % 4);

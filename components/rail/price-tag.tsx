@@ -11,7 +11,7 @@ export function PriceTag({ price, productName, tagRef }: PriceTagProps) {
   return (
     <div
       ref={tagRef}
-      className="absolute top-[82px] right-2 z-20 pointer-events-none origin-top-left transition-transform will-change-transform select-none"
+      className="absolute top-[clamp(56px,6.5vh,68px)] right-0 z-20 pointer-events-none origin-top-left transition-transform will-change-transform select-none"
       style={{ transform: "rotate(-8deg)" }}
       aria-hidden="true"
     >

@@ -128,12 +128,12 @@ export function RailBottle({
       <div
         ref={bottleRef}
         className={cn(
-          "relative flex flex-col items-center w-full max-w-[170px] origin-top transition-shadow will-change-transform",
+          "relative flex flex-col items-center w-full max-w-[clamp(100px,11vw,132px)] origin-top transition-shadow will-change-transform",
           isHovered && "scale-[1.04]"
         )}
         style={{
           transformOrigin: "50% 0px",
-          maxHeight: MAX_H,
+          maxHeight: "clamp(300px, 32vh, 345px)",
           transition: "transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1)",
         }}
       >
