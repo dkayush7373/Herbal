@@ -5,6 +5,7 @@ import { BottleRail } from "@/components/rail/bottle-rail";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Sparkles, ShieldCheck, Leaf, HeartHandshake } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
+import { AmbientBotanicalBackdrop } from "@/components/hero/ambient-botanical-backdrop";
 
 const TRUST_PILLS = [
   { label: "100% Natural", icon: Leaf },
@@ -33,16 +34,19 @@ export function Hero() {
   };
 
   return (
-    <section className="relative w-full pt-8 pb-4 flex flex-col items-center">
-      <div className="max-w-4xl mx-auto px-4 text-center space-y-6">
+    <section className="relative w-full pt-8 pb-4 flex flex-col items-center overflow-hidden">
+      {/* Cinematic Ambient Botanical Background */}
+      <AmbientBotanicalBackdrop />
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center space-y-6">
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 rounded-full bg-forest/10 dark:bg-gold/15 px-4 py-1 text-xs font-bold tracking-widest text-forest dark:text-gold uppercase shadow-sm">
+        <div className="inline-flex items-center gap-2 rounded-full bg-forest/10 dark:bg-gold/15 backdrop-blur-md border border-gold/30 px-4 py-1.5 text-xs font-bold tracking-widest text-forest dark:text-gold uppercase shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-gold" />
           <span>100% Ayurvedic Herbal Oil</span>
         </div>
 
         {/* H1 Heading with Responsive Clamp (text-4xl -> text-6xl) */}
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-forest dark:text-cream leading-[1.15]">
+        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-forest dark:text-cream leading-[1.15] drop-shadow-sm">
           Roots of Nature. Strength of Ayurveda.
         </h1>
 
@@ -51,28 +55,28 @@ export function Hero() {
           Artisanal botanical formulations crafted with pure cold-pressed oils and heritage herbs to deeply nourish the scalp, support hair vitality, and maintain natural silky lustre.
         </p>
 
-        {/* Magnetic CTA Button */}
+        {/* Magnetic CTA Button with gold-hairline rim */}
         <div className="pt-2">
           <a
             ref={buttonRef}
             href="#rail"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-forest text-cream hover:bg-forest/90 dark:bg-gold dark:text-charcoal dark:hover:bg-gold/90 font-semibold shadow-md transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-forest text-cream hover:bg-forest/90 dark:bg-gold dark:text-charcoal dark:hover:bg-gold/90 font-semibold shadow-lg hover:shadow-xl transition-all border border-gold/30 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <span>Shop Now</span>
             <ArrowDown className="w-4 h-4 animate-bounce" />
           </a>
         </div>
 
-        {/* 4 Trust Chips */}
+        {/* 4 Trust Chips with Glassmorphism */}
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-2 max-w-3xl mx-auto">
           {TRUST_PILLS.map((pill, i) => {
             const Icon = pill.icon;
             return (
               <div
                 key={i}
-                className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-card border border-border/60 text-xs font-medium text-foreground shadow-sm whitespace-nowrap"
+                className="flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-card/85 backdrop-blur-md border border-gold/25 text-xs font-medium text-foreground shadow-sm hover:border-gold/50 transition-colors whitespace-nowrap"
               >
                 <Icon className="w-3.5 h-3.5 text-gold shrink-0" />
                 <span>{pill.label}</span>
@@ -82,8 +86,8 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Hanging Bottle Rail (Above the fold on desktop >= 768px, gap <= 32px from trust chips) */}
-      <div className="w-full mt-6">
+      {/* Hanging Bottle Rail */}
+      <div className="relative z-10 w-full mt-6">
         <BottleRail />
       </div>
     </section>
