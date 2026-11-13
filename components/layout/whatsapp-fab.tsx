@@ -31,14 +31,17 @@ export function WhatsAppFab() {
         {!shouldReduceMotion && (
           <span
             aria-hidden="true"
-            className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping -z-10"
+            className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping -z-10 pointer-events-none"
           />
         )}
 
-        <WhatsAppIcon className="w-7 h-7" />
+        <WhatsAppIcon className="w-8 h-8 shrink-0 text-white fill-white relative z-10" aria-hidden="true" />
 
         {/* Tooltip on hover */}
-        <span className="sr-only sm:not-sr-only absolute right-16 px-3 py-1.5 rounded-lg bg-charcoal text-cream text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
+        <span
+          role="tooltip"
+          className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-charcoal text-cream text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+        >
           Chat on WhatsApp
         </span>
       </a>
