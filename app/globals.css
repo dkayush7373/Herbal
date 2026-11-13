@@ -4,76 +4,76 @@
 
 @layer base {
   :root {
-    --forest: #0F3D2E;
-    --gold: #E8B923;
-    --cream: #FFF8E7;
-    --charcoal: #1E1E1E;
+    --forest: #0B2F23;
+    --gold: #D4AF37;
+    --cream: #FAF6EE;
+    --charcoal: #141A17;
     --rail-ink: #C9A24A;
     --hook-metal: #D4AF37;
 
-    /* Light mode: Cream background, Forest/Charcoal text */
-    --background: 44 100% 95%; /* #FFF8E7 in HSL approx */
-    --foreground: 0 0% 12%; /* #1E1E1E */
+    /* Light mode: Warm Silk Alabaster background, Deep Imperial Forest text */
+    --background: 42 45% 97%; /* #FAF6EE */
+    --foreground: 156 40% 10%; /* #0F2018 */
 
-    --card: 44 80% 97%;
-    --card-foreground: 0 0% 12%;
+    --card: 42 50% 98.5%;
+    --card-foreground: 156 40% 10%;
 
-    --popover: 44 80% 97%;
-    --popover-foreground: 0 0% 12%;
+    --popover: 42 50% 98.5%;
+    --popover-foreground: 156 40% 10%;
 
-    --primary: 159 61% 15%; /* #0F3D2E */
-    --primary-foreground: 44 100% 95%; /* #FFF8E7 */
+    --primary: 156 55% 14%; /* #0B2F23 */
+    --primary-foreground: 42 45% 97%; /* #FAF6EE */
 
-    --secondary: 44 50% 90%;
-    --secondary-foreground: 159 61% 15%;
+    --secondary: 42 40% 91%;
+    --secondary-foreground: 156 55% 14%;
 
-    --muted: 44 30% 90%;
-    --muted-foreground: 159 20% 30%;
+    --muted: 42 30% 92%;
+    --muted-foreground: 156 20% 32%;
 
-    --accent: 46 80% 52%; /* #E8B923 */
-    --accent-foreground: 159 61% 15%;
+    --accent: 44 75% 52%; /* #D4AF37 */
+    --accent-foreground: 156 55% 14%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 44 100% 95%;
+    --destructive-foreground: 42 45% 97%;
 
-    --border: 44 30% 85%;
-    --input: 44 30% 85%;
-    --ring: 159 61% 15%; /* Light focus ring = Forest (11.48:1 contrast on cream) */
+    --border: 42 25% 86%;
+    --input: 42 25% 86%;
+    --ring: 156 55% 14%; /* Light focus ring = Imperial Forest */
 
     --radius: 0.75rem;
   }
 
   .dark {
-    /* Dark mode swaps cream <-> charcoal; forest + gold preserved */
-    --background: 0 0% 12%; /* #1E1E1E */
-    --foreground: 44 100% 95%; /* #FFF8E7 */
+    /* Dark mode: Deep Ayurvedic Forest Night Sanctuary */
+    --background: 156 30% 7%; /* #0D1612 */
+    --foreground: 42 35% 95%; /* #FAF6EE */
 
-    --card: 0 0% 15%;
-    --card-foreground: 44 100% 95%;
+    --card: 156 22% 10%; /* #13201A */
+    --card-foreground: 42 35% 95%;
 
-    --popover: 0 0% 15%;
-    --popover-foreground: 44 100% 95%;
+    --popover: 156 22% 10%;
+    --popover-foreground: 42 35% 95%;
 
-    --primary: 46 80% 52%; /* #E8B923 */
-    --primary-foreground: 0 0% 12%; /* #1E1E1E */
+    --primary: 44 75% 52%; /* #D4AF37 */
+    --primary-foreground: 156 30% 7%;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 44 100% 95%;
+    --secondary: 156 18% 16%;
+    --secondary-foreground: 42 35% 95%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 44 30% 75%;
+    --muted: 156 18% 15%;
+    --muted-foreground: 42 25% 75%;
 
-    --accent: 159 61% 25%;
-    --accent-foreground: 44 100% 95%;
+    --accent: 156 45% 22%;
+    --accent-foreground: 42 35% 95%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 44 100% 95%;
+    --destructive-foreground: 42 35% 95%;
 
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 46 80% 52%; /* Dark focus ring = Gold (9.05:1 contrast on charcoal) */
+    --border: 156 15% 18%;
+    --input: 156 15% 18%;
+    --ring: 44 75% 52%; /* Dark focus ring = Royal Gold */
     --rail-ink: #A8842F;
-    --hook-metal: #B8962E;
+    --hook-metal: #D4AF37;
   }
 }
 

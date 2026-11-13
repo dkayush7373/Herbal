@@ -16,7 +16,7 @@ import { DelightLayer } from "@/components/delight/delight-layer";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen flex flex-col bg-background text-foreground">
+    <div className="relative min-h-screen flex flex-col bg-background text-foreground bg-grain">
       {/* 1. Daily Shipping Offer Countdown Banner */}
       <OfferBanner />
 
