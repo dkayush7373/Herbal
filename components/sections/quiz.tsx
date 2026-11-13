@@ -91,9 +91,18 @@ export function QuizSection() {
     <section
       id="quiz"
       aria-label="Find Your Ayurvedic Oil Quiz"
-      className="w-full py-16 bg-muted/20 border-y border-border/50"
+      className="relative w-full py-20 bg-muted/20 border-y border-gold/20 overflow-hidden"
     >
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      {/* Ambient Botanical Radial Glow */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none opacity-40 dark:opacity-20 blur-3xl"
+        style={{
+          background: "radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(15, 61, 46, 0.15) 50%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10 space-y-3">
           <span className="text-xs font-semibold tracking-wider uppercase text-forest dark:text-gold">
             Personalized Routine
@@ -107,7 +116,7 @@ export function QuizSection() {
         </div>
 
         {!isCompleted ? (
-          <div className="bg-card rounded-3xl p-6 sm:p-8 border border-border shadow-md">
+          <div className="bg-card/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-gold/30 shadow-xl">
             {/* Step Indicators */}
             <div className="flex items-center justify-between mb-6 border-b border-border/50 pb-4">
               <span className="text-xs font-semibold text-muted-foreground">

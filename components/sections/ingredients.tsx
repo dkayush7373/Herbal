@@ -19,10 +19,10 @@ function HerbCard({ name, botanical, description, role, iconSvg }: HerbCardProps
   return (
     <div
       ref={cardRef}
-      className="p-6 rounded-2xl bg-card border border-border shadow-sm hover:shadow-md transition-all flex flex-col justify-between select-none cursor-pointer group"
+      className="p-6 rounded-2xl bg-card/90 backdrop-blur-sm border border-gold/20 shadow-sm hover:shadow-xl hover:border-gold/60 transition-all duration-300 flex flex-col justify-between select-none cursor-pointer group hover:-translate-y-1"
     >
       <div>
-        <div className="w-12 h-12 rounded-xl bg-forest/10 dark:bg-gold/15 flex items-center justify-center mb-4 text-forest dark:text-gold group-hover:scale-110 transition-transform">
+        <div className="w-12 h-12 rounded-xl bg-forest/10 dark:bg-gold/15 border border-forest/15 dark:border-gold/30 flex items-center justify-center mb-4 text-forest dark:text-gold group-hover:scale-110 group-hover:bg-forest group-hover:text-cream dark:group-hover:bg-gold dark:group-hover:text-charcoal transition-all">
           {iconSvg}
         </div>
         <div className="flex items-baseline justify-between mb-1">

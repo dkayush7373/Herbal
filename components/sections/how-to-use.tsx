@@ -70,7 +70,7 @@ export function HowToUseSection() {
           {RITUAL_STEPS.map((item, idx) => (
             <div
               key={idx}
-              className="relative z-10 flex flex-col items-center text-center space-y-3"
+              className="relative z-10 flex flex-col items-center text-center p-6 rounded-2xl bg-card/60 backdrop-blur-sm border border-gold/15 hover:border-gold/40 transition-all space-y-3"
             >
               {/* Gold Circle with Forest Numeral */}
               <div className="w-14 h-14 rounded-full bg-gold shadow-md flex items-center justify-center border-4 border-background">
