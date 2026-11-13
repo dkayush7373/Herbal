@@ -8,15 +8,16 @@ import { useReducedMotion } from "framer-motion";
 
 export function WhatsAppFab() {
   const number = SITE_CONFIG.whatsappNumber;
+  const cleanNumber = number.replace(/\D/g, "");
   const shouldReduceMotion = useReducedMotion();
 
   // Hidden when environment variable / number is invalid
-  if (!WHATSAPP_PHONE_REGEX.test(number)) {
+  if (!WHATSAPP_PHONE_REGEX.test(cleanNumber)) {
     return null;
   }
 
-  const prefilled = "Hi Akatsuki, I'd like to know more about your Ayurvedic Hair Oil.";
-  const url = `https://wa.me/${number}?text=${encodeURIComponent(prefilled)}`;
+  const prefilled = "Hi Akatsuki, I would like to know more about your Ayurvedic Hair Oil.";
+  const url = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(prefilled)}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-30 pointer-events-auto">

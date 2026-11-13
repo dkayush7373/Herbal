@@ -60,7 +60,7 @@ export const SITE_CONFIG: SiteConfig = {
   tagline: "Roots of Nature. Strength of Ayurveda.",
   subtagline:
     "Handcrafted 100% Ayurvedic Herbal Hair Oils infused with traditional botanicals to nourish roots, support hair strength, and maintain lasting lustre.",
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919844481633",
   newsletterEndpoint: process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT || undefined,
   shipping: {
     freeShippingThreshold: 499,
