@@ -126,14 +126,15 @@ export function buildWhatsAppCheckoutUrl(
   whatsappNumber: string,
   referralCode?: string | null
 ): string | null {
-  if (!WHATSAPP_PHONE_REGEX.test(whatsappNumber)) {
+  const cleanNumber = whatsappNumber ? whatsappNumber.replace(/\D/g, "") : "";
+  if (!WHATSAPP_PHONE_REGEX.test(cleanNumber)) {
     return null;
   }
   const plainMessage = buildWhatsAppOrderMessage(items, subtotal, referralCode);
   if (!plainMessage) return null;
 
   const encodedMessage = encodeURIComponent(plainMessage);
-  return `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+  return `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
@@ -237,14 +238,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, 0);
   }, [items, mounted]);
 
-  const rawNumber = SITE_CONFIG.whatsappNumber;
-  const isWhatsAppConfigured = WHATSAPP_PHONE_REGEX.test(rawNumber);
+  const rawNumber = SITE_CONFIG.whatsappNumber || "";
+  const cleanNumber = rawNumber.replace(/\D/g, "");
+  const isWhatsAppConfigured = WHATSAPP_PHONE_REGEX.test(cleanNumber);
 
   const checkoutUrl = useMemo(() => {
     if (!mounted || items.length === 0 || !isWhatsAppConfigured) return null;
     const refCode = getStoredReferral();
-    return buildWhatsAppCheckoutUrl(items, subtotal, rawNumber, refCode);
-  }, [mounted, items, subtotal, isWhatsAppConfigured, rawNumber]);
+    return buildWhatsAppCheckoutUrl(items, subtotal, cleanNumber, refCode);
+  }, [mounted, items, subtotal, isWhatsAppConfigured, cleanNumber]);
 
   const value = {
     items: mounted ? items : [],
