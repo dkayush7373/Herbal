@@ -158,20 +158,32 @@ export function useJiggleEngine(
     pointerStateRef.current.isOverRail = false;
   }, []);
 
-  // Tap impulse (Mobile / touch) - calmed
+  // Tap impulse (Mobile / touch / Click)
   const triggerTapImpulse = useCallback(
-    (idx: number) => {
+    (idx: number, strength: number = 3.5) => {
       cancelIntroAndSway();
       if (shouldReduceMotion) return;
       const states = statesRef.current;
       if (states[idx]) {
-        states[idx].impulse = clamp(states[idx].impulse + 1.2, -1.2, 1.2);
-        states[idx].squashImpulse += 0.02;
-        states[idx].sloshAmp = 0.3;
+        // Apply an alternating energetic pendulum kick on click/tap
+        const direction = (states[idx].angVel <= 0 ? 1 : -1);
+        states[idx].impulse += direction * strength;
+        states[idx].squashImpulse += 0.04;
+        states[idx].sloshAmp = 0.5;
+
+        // Propagate subtle reactive wave to immediate neighbours
+        if (states[idx - 1]) {
+          states[idx - 1].impulse += direction * strength * 0.45;
+          states[idx - 1].squashImpulse += 0.02;
+        }
+        if (states[idx + 1]) {
+          states[idx + 1].impulse += direction * strength * 0.45;
+          states[idx + 1].squashImpulse += 0.02;
+        }
       }
       if (typeof navigator !== "undefined" && navigator.vibrate) {
         try {
-          navigator.vibrate(8);
+          navigator.vibrate(12);
         } catch {
           // Feature detect fail safe
         }

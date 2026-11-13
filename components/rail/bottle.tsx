@@ -78,9 +78,12 @@ export function RailBottle({
 
     const dx = Math.abs(e.clientX - dragStartRef.current.startX);
     if (dx < 6) {
-      // Click registered
-      onSelect(product);
+      // Click registered: immediately fire energetic swing impulse
       onTap(index);
+      // Small timeout allows visual swing before opening modal detail view
+      setTimeout(() => {
+        onSelect(product);
+      }, 160);
     } else {
       // Drag released: trigger swing back
       onTap(index);
