@@ -33,7 +33,7 @@ export function ShareTheShelf() {
   const handleWhatsAppShare = () => {
     const url = getShareUrl();
     const message = `Check out AKATSUKI 100% Ayurvedic Herbal Hair Oils! Handcrafted with cold-pressed natural botanicals: ${url}`;
-    const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
     window.open(waUrl, "_blank", "noopener,noreferrer");
   };
 
